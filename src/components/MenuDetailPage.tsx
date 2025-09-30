@@ -78,13 +78,13 @@ export function MenuDetailPage({ item, onBack, onAddToCart }: MenuDetailPageProp
   };
 
   const canteenLabels = {
-    'kantin-utama': 'Kantin Utama',
-    'kantin-belakang': 'Kantin Belakang',
-    'food-court': 'Food Court'
+    'kantin-utama': 'Kantin FST',
+    'kantin-belakang': 'Kantin FISHUM',
+    'food-court': 'Food FITK'
   };
 
   return (
-    <div className="flex flex-col h-full bg-background">
+    <div className="flex flex-col h-full bg-white">
       {/* Header with Image */}
       <div className="relative">
         <ImageWithFallback
@@ -119,8 +119,8 @@ export function MenuDetailPage({ item, onBack, onAddToCart }: MenuDetailPageProp
         <div className="mb-6">
           <div className="flex items-start justify-between mb-2">
             <div className="flex-1">
-              <h1 className="text-2xl font-bold text-gray-900">{item.name}</h1>
-              <p className="text-lg text-primary font-semibold">{formatPrice(item.price)}</p>
+              <h1 className="text-3xl font-bold text-gray-900">{item.name}</h1>
+              <p className="text-xl text-green-500 font-semibold">{formatPrice(item.price)}</p>
             </div>
             <Badge variant="secondary" className="ml-2">
               {canteenLabels[item.canteen]}
@@ -128,15 +128,15 @@ export function MenuDetailPage({ item, onBack, onAddToCart }: MenuDetailPageProp
           </div>
 
           {/* Vendor Info */}
-          <Card className="mb-4">
+          <Card className="mb-4 bg-white">
             <CardContent className="p-4">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-                  <MapPin className="w-6 h-6 text-primary" />
+                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                  <MapPin className="w-6 h-6 text-green-500" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-semibold text-gray-900">{item.vendor}</h3>
-                  <div className="flex items-center gap-4 text-sm text-gray-600">
+                  <h3 className="font-semibold bg-white text-lg text-gray-900">{item.vendor}</h3>
+                  <div className="flex items-center gap-4 text-md text-gray-600">
                     <div className="flex items-center gap-1">
                       <Star className="w-4 h-4 text-yellow-500" />
                       <span>4.8</span>
@@ -163,17 +163,17 @@ export function MenuDetailPage({ item, onBack, onAddToCart }: MenuDetailPageProp
               size="sm"
               onClick={() => setQuantity(Math.max(1, quantity - 1))}
               disabled={quantity <= 1 || !item.inStock}
-              className="rounded-full w-10 h-10 p-0"
+              className="rounded-full w-10 h-10 p-0 bg-white text-black"
             >
               <Minus className="w-4 h-4" />
             </Button>
-            <span className="text-xl font-semibold w-8 text-center">{quantity}</span>
+            <span className="text-xl font-semibold text-black w-8 text-center">{quantity}</span>
             <Button
               variant="outline"
               size="sm"
               onClick={() => setQuantity(quantity + 1)}
               disabled={!item.inStock}
-              className="rounded-full w-10 h-10 p-0"
+              className="rounded-full w-10 h-10 p-0 bg-white text-black"
             >
               <Plus className="w-4 h-4" />
             </Button>
@@ -190,23 +190,19 @@ export function MenuDetailPage({ item, onBack, onAddToCart }: MenuDetailPageProp
                   key={level.id}
                   className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-colors ${
                     spiceLevel === level.id 
-                      ? 'border-primary bg-primary/5' 
+                      ? 'border-green-500 bg-green-500/10' 
                       : 'border-gray-200 hover:border-gray-300'
                   }`}
                   onClick={() => setSpiceLevel(level.id)}
                 >
                   <span className="text-xl">{level.icon}</span>
-                  <span className="font-medium">{level.label}</span>
-                  <div className="ml-auto">
-                    <div className={`w-4 h-4 rounded-full border-2 ${
-                      spiceLevel === level.id 
-                        ? 'border-primary bg-primary' 
-                        : 'border-gray-300'
-                    }`}>
-                      {spiceLevel === level.id && (
-                        <div className="w-full h-full rounded-full bg-white scale-50"></div>
-                      )}
-                    </div>
+                  <span className="font-medium text-black">{level.label}</span>
+                  <div className="ml-auto w-4 h-4 rounded-full border-2 flex items-center justify-center transition-colors"
+                    style={{ borderColor: spiceLevel === level.id ? '#4CAF50' : '#D1D5DB', backgroundColor: spiceLevel === level.id ? '#4CAF50' : 'transparent' }}
+                  >
+                    {spiceLevel === level.id && (
+                      <div className="w-full h-full rounded-full bg-white scale-50"></div>
+                    )}
                   </div>
                 </div>
               ))}
@@ -218,36 +214,42 @@ export function MenuDetailPage({ item, onBack, onAddToCart }: MenuDetailPageProp
         <div className="mb-6">
           <h3 className="font-semibold text-gray-900 mb-3">Tambahan (Opsional)</h3>
           <div className="space-y-2">
-            {addOns.map(addOn => (
-              <div
-                key={addOn.id}
-                className="flex items-center justify-between p-3 rounded-lg border border-gray-200 hover:border-gray-300 transition-colors"
-              >
+            {addOns.map(addOn => {
+              const isSelected = selectedAddOns.some(item => item.id === addOn.id);
+              return (
+                <div
+                  key={addOn.id}
+                  className={`flex items-center justify-between p-3 rounded-lg border transition-colors cursor-pointer ${
+                    isSelected ? 'border-green-500 bg-green-500/10' : 'border-gray-200 hover:border-gray-300'
+                  }`}
+                  onClick={() => toggleAddOn(addOn)}
+                >
                 <div className="flex items-center gap-3">
                   <Checkbox
-                    checked={selectedAddOns.some(item => item.id === addOn.id)}
-                    onCheckedChange={() => toggleAddOn(addOn)}
+                    checked={isSelected}
                     disabled={!item.inStock}
+                    className="bg-white data-[state=checked]:bg-green-500 data-[state=checked]:border-green-500"
                   />
-                  <span className="font-medium">{addOn.name}</span>
+                  <span className="font-medium text-black">{addOn.name}</span>
                 </div>
                 <span className="text-primary font-semibold">
                   {formatPrice(addOn.price)}
                 </span>
               </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
         {/* Notes */}
-        <div className="mb-6">
+        <div className="mb-6 bg-white">
           <h3 className="font-semibold text-gray-900 mb-3">Catatan Khusus</h3>
           <Textarea
             placeholder="Misal: tanpa sambal, extra pedas, dll..."
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
             disabled={!item.inStock}
-            className="resize-none"
+            className="resize-none bg-white text-black"
             rows={3}
           />
         </div>
@@ -256,15 +258,15 @@ export function MenuDetailPage({ item, onBack, onAddToCart }: MenuDetailPageProp
       {/* Bottom Bar */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4">
         <div className="flex items-center justify-between mb-3">
-          <span className="font-semibold text-gray-900">Total:</span>
-          <span className="text-xl font-bold text-primary">
+          <span className="font-semibold text-2xl text-gray-900">Total:</span>
+          <span className="text-2xl font-bold text-green-500">
             {formatPrice(totalPrice)}
           </span>
         </div>
         <Button
           onClick={handleAddToCart}
           disabled={!item.inStock}
-          className="w-full bg-primary hover:bg-primary/90 text-white rounded-xl h-12"
+          className="w-full bg-green-500 hover:bg-white/90 text-white text-xl rounded-xl h-12"
         >
           {item.inStock ? 'Tambah ke Keranjang' : 'Stok Habis'}
         </Button>

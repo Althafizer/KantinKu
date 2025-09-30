@@ -223,6 +223,7 @@ export default function App() {
       case 'profile':
         return (
           <ProfilePage
+            user={{ name: 'John Doe', email: '', balance: 50000 , phone: '08123456789', avatar: '', memberSince: new Date('2022-01-01') }}
             onTopUp={() => toast.info('Fitur top up akan segera hadir!')}
             onEditProfile={() => toast.info('Fitur edit profil akan segera hadir!')}
           />
@@ -238,7 +239,7 @@ export default function App() {
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <div className="h-screen bg-background flex flex-col">
-        <div className="flex-1 overflow-hidden">
+        <div className="flex-1">
           {renderCurrentPage()}
         </div>
         

@@ -27,7 +27,7 @@ interface HomePageProps {
 const menuItems: MenuItem[] = [
   {
     id: '1',
-    name: 'Nasi Goreng Spesial',
+    name: 'Nasi Goreng Gak Spesial" Banget',
     vendor: 'Warung Bu Sari',
     price: 15000,
     image: 'https://images.unsplash.com/photo-1680674814945-7945d913319c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxpbmRvbmVzaWFuJTIwZm9vZCUyMG5hc2klMjBnb3Jlbmd8ZW58MXx8fHwxNzU4NTQ2OTcxfDA&ixlib=rb-4.1.0&q=80&w=1080',
@@ -82,14 +82,14 @@ const menuItems: MenuItem[] = [
   },
   {
     id: '6',
-    name: 'Sate Ayam',
-    vendor: 'Sate Pak Joko',
+    name: 'Ayam Bakar Madu',
+    vendor: 'Ayam Bakar Pak Joko',
     price: 18000,
     image: 'https://images.unsplash.com/photo-1645066803665-d16a79a21566?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxpbmRvbmVzaWFuJTIwc2F0ZSUyMGNoaWNrZW4lMjBza2V3ZXJ8ZW58MXx8fHwxNzU4NTUwMzQwfDA&ixlib=rb-4.1.0&q=80&w=1080',
     category: 'makanan',
     canteen: 'food-court',
     inStock: true,
-    description: 'Sate ayam dengan bumbu kacang dan lontong'
+    description: 'Ayam dengan bumbu madu asli dari pegunungan rusia'
   }
 ];
 
@@ -130,36 +130,36 @@ export function HomePage({ onMenuItemClick, onAddToCart }: HomePageProps) {
   };
 
   return (
-    <div className="flex flex-col h-full bg-background">
+    <div className="flex flex-col h-full bg-white">
       {/* Header */}
-      <div className="bg-primary text-primary-foreground p-4 rounded-b-2xl">
+      <div className="bg-green-500 text-primary-foreground p-4 rounded-b-2xl">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h1 className="text-2xl font-bold text-white">Kantin ku</h1>
+            <h1 className="text-4xl font-bold text-white">KatOn ( Kantin Online )</h1>
             <p className="text-green-100 opacity-90">Pesan makanan favoritmu!</p>
           </div>
           <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
             <MapPin className="w-6 h-6 text-white" />
           </div>
         </div>
-
+      
         {/* Search Bar */}
-        <div className="relative mb-4">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+        <div className="relative bg-white mb-4 rounded-xl">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-white" />
           <Input
             placeholder="Cari makanan atau minuman..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 bg-white border-0 rounded-xl h-12 text-gray-700 placeholder:text-gray-400"
+            className="pl-10 bg-white border-0 rounded-2xl h-12 text-white placeholder:text-white"
           />
         </div>
 
         {/* Canteen Selector */}
         <Select value={selectedCanteen} onValueChange={setSelectedCanteen}>
-          <SelectTrigger className="bg-white border-0 rounded-xl h-12 text-gray-700">
+          <SelectTrigger className="bg-white border-5 rounded-xl h-12 text-white">
             <SelectValue placeholder="Pilih kantin" />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className='bg-white text-black'>
             {canteens.map(canteen => (
               <SelectItem key={canteen.id} value={canteen.id}>
                 {canteen.label}
@@ -180,8 +180,8 @@ export function HomePage({ onMenuItemClick, onAddToCart }: HomePageProps) {
               onClick={() => setSelectedCategory(category.id)}
               className={`rounded-full px-4 py-2 whitespace-nowrap ${
                 selectedCategory === category.id 
-                  ? 'bg-primary text-primary-foreground' 
-                  : 'border-gray-200 text-gray-600'
+                  ? 'bg-green-500 text-white' 
+                  : 'border-gray-200 text-black'
               }`}
             >
               {category.label}
@@ -196,7 +196,7 @@ export function HomePage({ onMenuItemClick, onAddToCart }: HomePageProps) {
           {filteredItems.map(item => (
             <Card 
               key={item.id} 
-              className="overflow-hidden border-0 shadow-sm hover:shadow-md transition-shadow duration-200 cursor-pointer"
+              className="overflow-hidden bg-white border-3 shadow-md hover:shadow-2xl transition-shadow duration-200 cursor-pointer"
               onClick={() => onMenuItemClick(item)}
             >
               <div className="relative">
@@ -206,16 +206,16 @@ export function HomePage({ onMenuItemClick, onAddToCart }: HomePageProps) {
                   className="w-full h-40 object-cover"
                 />
                 {!item.inStock && (
-                  <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                    <Badge variant="destructive" className="text-white">
+                  <div className="absolute inset-0 bg-black/70 flex items-center justify-center">
+                    <Badge variant="destructive" className="text-white text-base px-4 py-2">
                       Stok Habis
                     </Badge>
                   </div>
                 )}
                 <div className="absolute top-2 right-2">
                   <Badge variant="secondary" className="text-xs">
-                    {item.canteen === 'kantin-utama' ? 'Utama' : 
-                     item.canteen === 'kantin-belakang' ? 'Belakang' : 'Food Court'}
+                    {item.canteen === 'kantin-utama' ? 'Kantin FST' : 
+                     item.canteen === 'kantin-belakang' ? 'Kantin FISHUM' : 'Kantin FITK'}
                   </Badge>
                 </div>
               </div>
@@ -232,7 +232,7 @@ export function HomePage({ onMenuItemClick, onAddToCart }: HomePageProps) {
                   
                   <Button
                     size="sm"
-                    className="ml-2 w-8 h-8 rounded-full bg-primary hover:bg-primary/90 p-0"
+                    className="ml-2 w-8 h-8 rounded-full bg-green-500 text-black hover:bg-green/90 p-0"
                     onClick={(e) => {
                       e.stopPropagation();
                       if (item.inStock) {
@@ -241,7 +241,7 @@ export function HomePage({ onMenuItemClick, onAddToCart }: HomePageProps) {
                     }}
                     disabled={!item.inStock}
                   >
-                    <Plus className="w-4 h-4 text-white" />
+                    <Plus className="w-4 h-4 text-black bg-green-500" />
                   </Button>
                 </div>
               </CardContent>

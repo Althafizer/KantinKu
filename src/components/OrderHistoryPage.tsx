@@ -257,17 +257,17 @@ export function OrderHistoryPage({ orders = mockOrders, onReorder }: OrderHistor
   );
 
   return (
-    <div className="flex flex-col h-full bg-background">
+    <div className="flex flex-col h-full bg-white">
       {/* Header */}
-      <div className="bg-primary text-primary-foreground p-4">
-        <h1 className="text-xl font-bold text-white">Riwayat Pesanan</h1>
+      <div className="bg-green-500 text-primary-foreground p-4">
+        <h1 className="text-3xl font-bold text-white">Riwayat Pesanan</h1>
         <p className="text-green-100 opacity-90">Lacak dan ulangi pesanan Anda</p>
       </div>
 
       {/* Tabs */}
-      <div className="flex-1 p-4 pb-20">
+      <div className="flex-1 p-4 pb-20 bg-gray">
         <Tabs defaultValue="active" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-4">
+          <TabsList className="grid w-full grid-cols-2 mb-4 bg-white">
             <TabsTrigger value="active">
               Sedang Berjalan ({activeOrders.length})
             </TabsTrigger>

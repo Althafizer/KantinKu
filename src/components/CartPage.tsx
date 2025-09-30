@@ -61,7 +61,7 @@ export function CartPage({ cartItems, onUpdateQuantity, onRemoveItem, onCheckout
 
   if (cartItems.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center h-full p-8 text-center">
+      <div className="flex flex-col items-center justify-center h-full p-8 text-center bg-white">
         <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
           <div className="w-12 h-12 bg-gray-300 rounded-lg"></div>
         </div>
@@ -74,22 +74,22 @@ export function CartPage({ cartItems, onUpdateQuantity, onRemoveItem, onCheckout
   return (
     <div className="flex flex-col h-full bg-background">
       {/* Header */}
-      <div className="bg-primary text-primary-foreground p-4">
-        <h1 className="text-xl font-bold text-white">Keranjang Belanja</h1>
-        <p className="text-green-100 opacity-90">{cartItems.length} item dalam keranjang</p>
+      <div className="bg-green-500 text-white p-4">
+        <h1 className="text-2xl font-bold text-white">Keranjang Belanja</h1>
+        <p className="text-green-100 text-lg opacity-90">{cartItems.length} item dalam keranjang</p>
       </div>
 
       {/* Cart Items */}
-      <div className="flex-1 p-4 overflow-y-auto pb-80">
-        <div className="space-y-4">
+      <div className="flex-1 bg-white p-4 overflow-y-auto pb-80">
+        <div className="space-y-4 ">
           {cartItems.map(item => (
-            <Card key={item.id} className="overflow-hidden">
+            <Card key={item.id} className="overflow-hidden bg-white">
               <CardContent className="p-4">
                 <div className="flex gap-4">
                   {/* Image */}
                   <ImageWithFallback
                     src={item.image}
-                    alt={item.name}
+                    alt={item.name} 
                     className="w-20 h-20 object-cover rounded-lg flex-shrink-0"
                   />
 
@@ -102,25 +102,25 @@ export function CartPage({ cartItems, onUpdateQuantity, onRemoveItem, onCheckout
                       </div>
                       <Button
                         variant="ghost"
-                        size="sm"
+                        size="lg"
                         onClick={() => onRemoveItem(item.id)}
-                        className="text-red-500 hover:text-red-700 hover:bg-red-50 p-1"
+                        className="text-red-500 hover:text-red-800 hover:bg-red-50 p-1"
                       >
-                        <Trash2 className="w-4 h-4" />
+                        <Trash2 className="size-5" />
                       </Button>
                     </div>
 
                     {/* Price */}
-                    <p className="font-semibold text-primary mb-2">
+                    <p className="font-semibold text-green-500 text-lg mb-2">
                       {formatPrice(item.price)}
                     </p>
 
                     {/* Add-ons */}
                     {item.addOns.length > 0 && (
                       <div className="mb-2">
-                        <p className="text-xs text-gray-500 mb-1">Tambahan:</p>
+                        <p className="text-sm text-gray-500 mb-1">Tambahan:</p>
                         {item.addOns.map(addOn => (
-                          <div key={addOn.id} className="flex justify-between text-xs text-gray-600">
+                          <div key={addOn.id} className="flex justify-between text-sm text-gray-600">
                             <span>+ {addOn.name}</span>
                             <span>{formatPrice(addOn.price)}</span>
                           </div>
@@ -130,7 +130,7 @@ export function CartPage({ cartItems, onUpdateQuantity, onRemoveItem, onCheckout
 
                     {/* Spice Level */}
                     {item.spiceLevel && item.spiceLevel !== 'tidak-pedas' && (
-                      <p className="text-xs text-gray-500 mb-2">
+                      <p className="text-sm text-gray-500 mb-2">
                         Level: {spiceLevelLabels[item.spiceLevel as keyof typeof spiceLevelLabels]}
                       </p>
                     )}
@@ -150,21 +150,21 @@ export function CartPage({ cartItems, onUpdateQuantity, onRemoveItem, onCheckout
                           size="sm"
                           onClick={() => onUpdateQuantity(item.id, Math.max(1, item.quantity - 1))}
                           disabled={item.quantity <= 1}
-                          className="rounded-full w-8 h-8 p-0"
+                          className="rounded-full w-8 h-8 p-0 bg-white text-black"
                         >
                           <Minus className="w-3 h-3" />
                         </Button>
-                        <span className="font-semibold w-6 text-center">{item.quantity}</span>
+                        <span className="font-semibold text-black w-6 text-center">{item.quantity}</span>
                         <Button
                           variant="outline"
                           size="sm"
                           onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}
-                          className="rounded-full w-8 h-8 p-0"
+                          className="rounded-full w-8 h-8 p-0 bg-white text-black"
                         >
                           <Plus className="w-3 h-3" />
                         </Button>
                       </div>
-                      <span className="font-semibold text-primary">
+                      <span className="font-semibold text-xl text-green-500">
                         {formatPrice(getItemTotal(item))}
                       </span>
                     </div>
@@ -176,15 +176,23 @@ export function CartPage({ cartItems, onUpdateQuantity, onRemoveItem, onCheckout
         </div>
 
         {/* Delivery Method */}
-        <Card className="mt-6">
+        <Card className="mt-6 bg-white">
           <CardContent className="p-4">
-            <h3 className="font-semibold text-gray-900 mb-4">Metode Pengambilan</h3>
+            <h3 className="font-semibold text-lg text-gray-900 mb-4">Metode Pengambilan</h3>
             <RadioGroup value={deliveryMethod} onValueChange={setDeliveryMethod}>
-              <div className="flex items-center space-x-3 p-3 rounded-lg border border-gray-200">
-                <RadioGroupItem value="pickup" id="pickup" />
-                <Label htmlFor="pickup" className="flex-1 cursor-pointer">
+              <div 
+                className={`flex items-center space-x-3 p-3 rounded-lg border cursor-pointer transition-colors ${
+                  deliveryMethod === 'pickup' ? 'border-green-500 bg-green-500/10' : 'border-gray-200 hover:border-gray-300'
+                }`}
+                onClick={() => setDeliveryMethod('pickup')}
+              >
+                <RadioGroupItem 
+                  value="pickup" 
+                  id="pickup" 
+                  className="data-[state=checked]:bg-green-500 data-[state=checked]:border-green-500 data-[state=checked]:text-white" />
+                <Label htmlFor="pickup" className="flex-1 cursor-pointer font-normal">
                   <div className="flex items-center gap-3">
-                    <MapPin className="w-5 h-5 text-primary" />
+                    <MapPin className="w-5 h-5 text-green-500" />
                     <div>
                       <p className="font-medium">Ambil di Kantin</p>
                       <p className="text-sm text-gray-600">Ambil sendiri di lokasi kantin</p>
@@ -194,32 +202,40 @@ export function CartPage({ cartItems, onUpdateQuantity, onRemoveItem, onCheckout
                 <span className="font-semibold text-green-600">Gratis</span>
               </div>
 
-              <div className="flex items-center space-x-3 p-3 rounded-lg border border-gray-200">
-                <RadioGroupItem value="delivery" id="delivery" />
-                <Label htmlFor="delivery" className="flex-1 cursor-pointer">
+              <div 
+                className={`flex items-center space-x-3 p-3 rounded-lg border cursor-pointer transition-colors ${
+                  deliveryMethod === 'delivery' ? 'border-green-500 bg-green-500/10' : 'border-gray-200 hover:border-gray-300'
+                }`}
+                onClick={() => setDeliveryMethod('delivery')}
+              >
+                <RadioGroupItem 
+                  value="delivery" 
+                  id="delivery" 
+                  className="data-[state=checked]:bg-green-500 data-[state=checked]:border-green-500 data-[state=checked]:text-white" />
+                <Label htmlFor="delivery" className="flex-1 cursor-pointer font-normal">
                   <div className="flex items-center gap-3">
-                    <Clock className="w-5 h-5 text-primary" />
+                    <Clock className="w-5 h-5 text-green-500" />
                     <div>
                       <p className="font-medium">Diantar ke Kelas</p>
                       <p className="text-sm text-gray-600">Pesan akan diantar ke lokasi kelas</p>
                     </div>
                   </div>
                 </Label>
-                <span className="font-semibold text-primary">{formatPrice(5000)}</span>
+                <span className="font-semibold text-green-500">{formatPrice(5000)}</span>
               </div>
             </RadioGroup>
           </CardContent>
         </Card>
 
         {/* Estimated Time */}
-        <Card className="mt-4">
+        <Card className="mt-4 bg-white">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <Clock className="w-5 h-5 text-primary" />
+                <Clock className="w-5 h-5 text-green-500" />
                 <span className="font-medium text-gray-900">Estimasi Waktu</span>
               </div>
-              <span className="font-semibold text-primary">{estimatedTime}</span>
+              <span className="font-semibold text-green-500">{estimatedTime}</span>
             </div>
           </CardContent>
         </Card>
@@ -239,15 +255,15 @@ export function CartPage({ cartItems, onUpdateQuantity, onRemoveItem, onCheckout
             </div>
           )}
           <Separator />
-          <div className="flex justify-between text-lg font-bold">
+          <div className="flex justify-between text-black text-xl font-bold">
             <span>Total</span>
-            <span className="text-primary">{formatPrice(total)}</span>
+            <span className="text-green-500">{formatPrice(total)}</span>
           </div>
         </div>
 
         <Button
           onClick={handleCheckout}
-          className="w-full bg-primary hover:bg-primary/90 text-white rounded-xl h-12"
+          className="w-full bg-green-500 hover:bg-primary/90 text-white rounded-xl h-12"
         >
           Lanjut ke Pembayaran
         </Button>

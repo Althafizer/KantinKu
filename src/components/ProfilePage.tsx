@@ -87,22 +87,22 @@ export function ProfilePage({
   ];
 
   return (
-    <div className="flex flex-col h-full bg-background">
+    <div className="flex flex-col h-full bg-white">
       {/* Header */}
-      <div className="bg-primary text-primary-foreground p-4">
-        <h1 className="text-xl font-bold text-white">Profil</h1>
+      <div className="bg-green-500 text-primary-foreground p-4">
+        <h1 className="text-3xl font-bold text-white">Profil</h1>
         <p className="text-green-100 opacity-90">Kelola akun dan preferensi Anda</p>
       </div>
 
       {/* Content */}
       <div className="flex-1 p-4 overflow-y-auto pb-20">
         {/* Profile Info */}
-        <Card className="mb-6">
+        <Card className="mb-6 bg-white">
           <CardContent className="p-6">
             <div className="flex items-center gap-4 mb-4">
               <Avatar className="w-16 h-16">
                 <AvatarImage src={user.avatar} alt={user.name} />
-                <AvatarFallback className="bg-primary text-primary-foreground text-lg">
+                <AvatarFallback className="bg-green-500 text-primary-foreground text-lg">
                   {getInitials(user.name)}
                 </AvatarFallback>
               </Avatar>
